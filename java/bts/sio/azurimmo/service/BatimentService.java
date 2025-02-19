@@ -23,7 +23,9 @@ public class BatimentService {
 	private AppartementService appartementService;
 	
 	public Batiment saveBatiment(Batiment batiment) {
-
+		if(batiment.getId()==0) {
+			batiment.setId(null);
+		}
 		Batiment savedBatiment = batimentRepository.save(batiment);
 		return savedBatiment;
 	}

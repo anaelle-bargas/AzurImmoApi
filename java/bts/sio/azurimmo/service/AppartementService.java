@@ -16,6 +16,9 @@ public class AppartementService {
 	private AppartementRepository appartementRepository;
 	
 	public Appartement saveAppartement(Appartement appartement) {
+		if(appartement.getId()==0) {
+			appartement.setId(null);
+		}
 		Appartement savedAppartement = appartementRepository.save(appartement);
 		return savedAppartement;
 	}
