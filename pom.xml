@@ -11,9 +11,9 @@
 	<groupId>bts.sio</groupId>
 	<artifactId>azurimmo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
 	<name>azurimmo</name>
 	<description>Projet Immobilier</description>
+	<packaging>war</packaging>
 	<url/>
 	<licenses>
 		<license/>
@@ -73,6 +73,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>azurimmo</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
