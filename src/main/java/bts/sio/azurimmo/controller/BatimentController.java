@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/batiments")
-
+@CrossOrigin(origins= {"http://127.0.0.1:3000", "http://localhost:3000"})
 
 public class BatimentController {
 	@Autowired
@@ -32,6 +32,12 @@ public class BatimentController {
 	@GetMapping("/id/{id}")
 	public Optional<Batiment> getBatimentById(@PathVariable Long id) {
 		return batimentService.getBatimentById(id);
+	}
+	
+	
+	@DeleteMapping("/{id}")
+	public void deleteBatiment(@PathVariable Long id) {
+		batimentService.deleteBatiment(id);
 	}
 	
 	//@GetMapping("/surfaceTotale/{idBatiment}")

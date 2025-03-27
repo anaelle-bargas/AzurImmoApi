@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import bts.sio.azurimmo.model.Appartement;
@@ -63,5 +64,16 @@ public class BatimentService {
 	
 	public Optional<Batiment> getBatimentById(Long id) {
 		return batimentRepository.findById(id);
+	}
+	
+	public void deleteBatiment(Long id) {
+		try {
+            if (!batimentRepository.existsById(id)) {
+                throw new IllegalArgumentException("Le bâtiment avec l'ID " + id + " n'existe pas.");
+            }
+            batimentRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new IllegalArgumentException("Erreur lors de la suppression du bâtiment avec l'ID " + id, e);
+        }
 	}
 }
