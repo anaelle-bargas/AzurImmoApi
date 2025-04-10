@@ -62,7 +62,7 @@ public class SecurityConfig {
     private static final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
 
     @Bean
-    public AuthenticationManager authManager() {
+    public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
@@ -75,17 +75,10 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .cors(withDefaults -> {})
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/error/**").permitAll()
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/swagger-ui/**").permitAll()
-                .requestMatchers("/api-docs/**").permitAll()
-                .requestMatchers("/uploads/**").permitAll()
-                .requestMatchers("/images/**").permitAll()
-                .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/api/**").authenticated()
-                
-                .anyRequest().authenticated()
+                    .requestMatchers("/api/auth/**", "/auth/**").permitAll()
+                    .requestMatchers("/h2-console/**", "/swagger-ui/**", "/api-docs/**", "/uploads/**", "/images/**").permitAll()
+                    .requestMatchers("/api/**").authenticated()
+                    .anyRequest().authenticated()
             )
             .headers(headers -> headers.frameOptions().disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
