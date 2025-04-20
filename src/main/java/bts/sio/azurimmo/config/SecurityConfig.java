@@ -77,8 +77,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/api/auth/**", "/auth/**").permitAll()
                     .requestMatchers("/h2-console/**", "/swagger-ui/**", "/api-docs/**", "/uploads/**", "/images/**").permitAll()
-                    .requestMatchers("/api/**").authenticated()
-                    .anyRequest().authenticated()
+                    .requestMatchers("/api/**").permitAll()
+                    //.anyRequest().authenticated()
             )
             .headers(headers -> headers.frameOptions().disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

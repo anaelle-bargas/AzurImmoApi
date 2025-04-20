@@ -35,16 +35,17 @@ public class AuthController {
 	private AuthService authService;
 	
 	@PostMapping("/register")
-	public ResponseEntity<Utilisateur> register(@RequestBody Utilisateur utilisateur) {
-		try {
-			utilisateurRepository.save(utilisateur);
-			return ResponseEntity.ok(utilisateur);
-		}catch(Exception e) {
-			
-		}
-		return ResponseEntity.badRequest().build();	
-	
-	}
+    public ResponseEntity<Utilisateur> register(@RequestBody Utilisateur utilisateur) {
+        try {
+            String pwd = utilisateur.getPassword();
+            utilisateur.setPassword(authService.hashPassword(pwd));
+            utilisateurRepository.save(utilisateur);
+            return ResponseEntity.ok(utilisateur);
+        } catch (Exception e) {
+
+        }
+        return ResponseEntity.badRequest().build();
+    }
 	
 	
 	@PostMapping("/login")

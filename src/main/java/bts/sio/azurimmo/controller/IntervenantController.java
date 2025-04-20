@@ -9,24 +9,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import bts.sio.azurimmo.model.Locataire;
-import bts.sio.azurimmo.repository.LocataireRepository;
-import bts.sio.azurimmo.service.LocataireService;
+import bts.sio.azurimmo.model.Appartement;
+import bts.sio.azurimmo.model.Intervenant;
+import bts.sio.azurimmo.service.IntervenantService;
 
 @RestController
-@RequestMapping("/api/locataires")
-
-public class LocataireController {
+@RequestMapping("/api/intervenants")
+public class IntervenantController {
 	@Autowired
-	private LocataireService locataireService;
+	private IntervenantService intervenantService;
+	
 	
 	@GetMapping("/")
-	public List<Locataire> findAll(){
-		return locataireService.findAll();
+	public List<Intervenant> getLesInterventions(){
+		return intervenantService.getLesIntervenants();
 	}
 	
 	@PostMapping("/")
-	public Locataire createLocataire(@RequestBody Locataire locataire) {
-		return locataireService.createLocataire(locataire);
+	public Intervenant addIntervention(@RequestBody Intervenant intervenant){
+		return intervenantService.createIntervenant(intervenant);
 	}
 }
+

@@ -25,6 +25,32 @@ public class Locataire {
 	
 	@Column
 	private String lieu_naissance;
+	
+	@Column
+	private String email;
+	
+	
+	@Column
+	private String telephone;
+	
+	
+	
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
 
 	public Long getId() {
 		return id;

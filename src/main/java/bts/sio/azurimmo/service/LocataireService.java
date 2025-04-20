@@ -18,4 +18,12 @@ public class LocataireService {
 	public List<Locataire> findAll(){
 		return locataireRepository.findAll();
 	}
+	
+	
+	public Locataire createLocataire(Locataire locataire) {
+		if(locataire.getId()==0) {
+			locataire.setId(null);
+		}
+		return locataireRepository.save(locataire);
+	}
 }
