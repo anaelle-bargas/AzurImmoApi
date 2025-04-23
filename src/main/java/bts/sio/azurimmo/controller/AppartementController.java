@@ -44,4 +44,9 @@ public class AppartementController {
 	public List<Appartement> findBySurface(@PathVariable double surface){
 		return appartementService.findBySurface(surface);
 	}
+	
+	@DeleteMapping("/{id}")
+	public void deleteAppartement(@PathVariable Long id) {
+		appartementService.deleteAppartement(id);
+	}
 }

@@ -2,6 +2,7 @@ package bts.sio.azurimmo.service;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import bts.sio.azurimmo.model.Appartement;
 import bts.sio.azurimmo.repository.AppartementRepository;
@@ -41,5 +42,17 @@ public class AppartementService {
 	
 	public List<Appartement> getAppartements() {
 		return appartementRepository.findAll();
+	}
+	
+	
+	public void deleteAppartement(Long id) {
+		try {
+            if (!appartementRepository.existsById(id)) {
+                throw new IllegalArgumentException("Le Appartement avec l'ID " + id + " n'existe pas.");
+            }
+            appartementRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new IllegalArgumentException("Erreur lors de la suppression du Appartement avec l'ID " + id, e);
+        }
 	}
 }
