@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.1deb1~bpo11+1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1
--- Généré le : ven. 25 avr. 2025 à 08:40
--- Version du serveur : 10.4.32-MariaDB
--- Version de PHP : 8.2.12
+-- Hôte : localhost:3306
+-- Généré le : mar. 13 mai 2025 à 06:54
+-- Version du serveur : 10.5.28-MariaDB-0+deb11u1-log
+-- Version de PHP : 8.3.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,22 +29,31 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `appartement` (
   `id` bigint(20) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
+  `nb_pieces_original` int(11) DEFAULT NULL,
   `numero` int(11) DEFAULT NULL,
-  `surface` float DEFAULT NULL,
-  `batiment_id` bigint(20) DEFAULT NULL,
-  `nbre_pieces` int(11) DEFAULT NULL,
-  `nb_pieces_original` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `surface` double DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `batiment_id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `appartement`
 --
 
-INSERT INTO `appartement` (`id`, `description`, `numero`, `surface`, `batiment_id`, `nbre_pieces`, `nb_pieces_original`) VALUES
-(11, 'Studio', 102, 25.5, 14, 2, 5),
-(12, 'Duplex', 333, 80.5, 15, 2, 7),
-(16, 'Test', 33, 50, 14, 4, 6);
+INSERT INTO `appartement` (`id`, `nb_pieces_original`, `numero`, `surface`, `description`, `batiment_id`) VALUES
+(1, 5, 508, 111.1, 'Apparetment du haut', 3),
+(2, 8, 1236, 15.6, 'EN bas', 1),
+(3, 9, 320004, 115, 'Porte rose', 1),
+(4, 45, 456, 0, 'Fenetres blue', 1),
+(5, 0, 10020, 5162.3, 'test avec id=0', NULL),
+(6, 5, 165, 112, 'yui', 1),
+(7, 3, 1, 35, '', 2),
+(8, 12, 123, 165, 'Pas de boite au lettres', 5),
+(9, 0, 10020, 5162.3, 'test avec id=0', NULL),
+(10, 5, 905, 100.25, '', 3),
+(11, 2, 1165, 30.56, '', 2),
+(12, 5, 569, 69, '', 3),
+(13, 6, 6985, 150, '', 5);
 
 -- --------------------------------------------------------
 
@@ -64,8 +73,8 @@ CREATE TABLE `associe` (
 --
 
 INSERT INTO `associe` (`id`, `date_naissance`, `nom`, `prenom`) VALUES
-(1, '2025-01-01', 'Dupont', 'Jean-Phillipe'),
-(2, '2015-03-05', 'De La Marre', 'Henri');
+(1, '2025-01-01', 'Lama', 'Serge'),
+(2, '2025-01-03', 'La Belle', 'Rose');
 
 -- --------------------------------------------------------
 
@@ -77,16 +86,36 @@ CREATE TABLE `batiment` (
   `id` bigint(20) NOT NULL,
   `adresse` varchar(255) DEFAULT NULL,
   `ville` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `batiment`
 --
 
 INSERT INTO `batiment` (`id`, `adresse`, `ville`) VALUES
-(14, '1 rue du château', 'Caen'),
-(15, '16 rue André', 'Cheux'),
-(17, '4 rue des lilas', 'Caen');
+(1, '7 avenue de la maroquinerie', 'Saint Lo'),
+(2, '86 ruelle March', 'Lorient'),
+(3, '41 rue de la Chatelle', 'Paris'),
+(5, '41 rue de la GARE', 'Paris');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `bien`
+--
+
+CREATE TABLE `bien` (
+  `idb` int(11) NOT NULL,
+  `adresse` varchar(255) DEFAULT NULL,
+  `cp` varchar(255) DEFAULT NULL,
+  `libelle` varchar(255) DEFAULT NULL,
+  `nbpersmax` int(11) DEFAULT NULL,
+  `pieces` varchar(255) DEFAULT NULL,
+  `prix` float DEFAULT NULL,
+  `ville` varchar(255) DEFAULT NULL,
+  `idp` int(11) DEFAULT NULL,
+  `idt` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -98,41 +127,19 @@ CREATE TABLE `contrat` (
   `id` bigint(20) NOT NULL,
   `date_entree` date DEFAULT NULL,
   `date_sortie` date DEFAULT NULL,
-  `montant_loyer` float DEFAULT NULL,
   `montant_charges` float DEFAULT NULL,
-  `statut` varchar(255) DEFAULT NULL,
-  `locataire_id` bigint(40) DEFAULT NULL,
-  `appartement_id` bigint(20) DEFAULT NULL,
+  `montant_loyer` float DEFAULT NULL,
   `associe_id` bigint(20) DEFAULT NULL,
+  `appartement_id` bigint(20) DEFAULT NULL,
   `locataire` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `contrat`
 --
 
-INSERT INTO `contrat` (`id`, `date_entree`, `date_sortie`, `montant_loyer`, `montant_charges`, `statut`, `locataire_id`, `appartement_id`, `associe_id`, `locataire`) VALUES
-(16, '2005-01-01', '2010-02-15', 500, 50, 'Sorti', 9, 11, 2, 9),
-(17, '2010-01-01', '2020-03-15', 700, 70, 'Sorti', 8, 11, 1, 8);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `entreprise`
---
-
-CREATE TABLE `entreprise` (
-  `id` bigint(20) NOT NULL,
-  `nom` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Déchargement des données de la table `entreprise`
---
-
-INSERT INTO `entreprise` (`id`, `nom`) VALUES
-(3, 'Fouchard '),
-(4, 'Coquelin');
+INSERT INTO `contrat` (`id`, `date_entree`, `date_sortie`, `montant_charges`, `montant_loyer`, `associe_id`, `appartement_id`, `locataire`) VALUES
+(1, '2025-01-27', '2025-01-31', 750, 1520, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -145,14 +152,6 @@ CREATE TABLE `garant` (
   `nom` varchar(255) DEFAULT NULL,
   `prenom` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `garant`
---
-
-INSERT INTO `garant` (`id`, `nom`, `prenom`) VALUES
-(1, 'Barras', 'Lavinia'),
-(2, 'Sévigné', 'David');
 
 -- --------------------------------------------------------
 
@@ -170,10 +169,8 @@ CREATE TABLE `intervenant` (
 --
 
 INSERT INTO `intervenant` (`id`, `nom`) VALUES
-(1, 'GrandFrais'),
-(2, 'Lidl'),
-(3, 'Brico Dépôt'),
-(4, 'TQ Group');
+(1, 'ElectricityAndCo'),
+(2, 'PlomberieAndCO');
 
 -- --------------------------------------------------------
 
@@ -183,26 +180,20 @@ INSERT INTO `intervenant` (`id`, `nom`) VALUES
 
 CREATE TABLE `intervention` (
   `id` bigint(20) NOT NULL,
-  `date_intervention` date DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `type_intervention` varchar(255) DEFAULT NULL,
-  `appartement_id` bigint(20) DEFAULT NULL,
-  `entreprise_id` bigint(20) DEFAULT NULL,
   `date` date DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `appartement_id` bigint(20) DEFAULT NULL,
   `intervenant_id` bigint(20) DEFAULT NULL,
   `type_intervention_id` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `intervention`
 --
 
-INSERT INTO `intervention` (`id`, `date_intervention`, `description`, `type_intervention`, `appartement_id`, `entreprise_id`, `date`, `intervenant_id`, `type_intervention_id`) VALUES
-(5, '2024-01-02', 'Réparation volet salon', 'Réparation', 12, 3, '2025-03-11', 1, 1),
-(6, '2023-07-15', 'Débouchage évier', 'Dépannage', 11, 4, '2025-03-11', 2, 1),
-(7, NULL, 'zergthyu', NULL, 11, NULL, '2003-05-01', 2, 1),
-(8, NULL, 'Fuite du toit', NULL, 12, NULL, '2025-01-01', 2, 2),
-(9, NULL, 'dez', NULL, 12, NULL, '2027-01-03', 2, 1);
+INSERT INTO `intervention` (`id`, `date`, `description`, `appartement_id`, `intervenant_id`, `type_intervention_id`) VALUES
+(1, '2025-02-10', 'Mise au normes de l\'électricité', 1, 1, 1),
+(2, '2025-02-09', 'Réparation de l\'évier bouché', 3, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -216,20 +207,31 @@ CREATE TABLE `locataire` (
   `lieu_naissance` varchar(255) DEFAULT NULL,
   `nom` varchar(255) DEFAULT NULL,
   `prenom` varchar(255) DEFAULT NULL,
-  `telephone` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `email` varchar(255) DEFAULT NULL,
+  `telephone` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `locataire`
 --
 
-INSERT INTO `locataire` (`id`, `date_naissance`, `lieu_naissance`, `nom`, `prenom`, `telephone`, `email`) VALUES
-(8, '1993-12-30', 'Lomé', 'Martin', 'Patrick', '06.06.06.06.06', 'test@gmail.com'),
-(9, '1982-05-30', 'Bayeux', 'Gady', 'Bénédicte', '06.06.06.06.06', 'test@gmail.com'),
-(10, '2005-03-29', 'Mont-Saint-Aignan', 'Bargas', 'Anaelle', '06.06.06.06.06', 'test@gmail.com'),
-(11, '2005-03-29', 'Mont-Saint-Aignan', 'Bargas', 'Anaelle', '06.06.06.06.06', 'anaelle.bargas@sts-sio-caen.info'),
-(12, '2005-03-29', 'Mont-Saint-Aignan', 'Bargas', 'MAella', '06.06.06.06.06', 'anaelle.bargas@sts-sio-caen.info');
+INSERT INTO `locataire` (`id`, `date_naissance`, `lieu_naissance`, `nom`, `prenom`, `email`, `telephone`) VALUES
+(1, '2025-01-01', 'Dieppe', 'Bargas', 'Anaëlle', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `louer`
+--
+
+CREATE TABLE `louer` (
+  `id` int(11) NOT NULL,
+  `date` datetime(6) DEFAULT NULL,
+  `nbnuitee` int(11) DEFAULT NULL,
+  `nbpers` int(11) DEFAULT NULL,
+  `idb` int(11) DEFAULT NULL,
+  `idl` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -243,13 +245,24 @@ CREATE TABLE `paiement` (
   `montant` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Déchargement des données de la table `paiement`
+-- Structure de la table `proprietaire`
 --
 
-INSERT INTO `paiement` (`id`, `date_paiement`, `montant`) VALUES
-(1, '2025-03-27', 9000),
-(2, '2025-03-27', 1500);
+CREATE TABLE `proprietaire` (
+  `id` int(11) NOT NULL,
+  `adresse` varchar(255) DEFAULT NULL,
+  `cp` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `mail` varchar(255) DEFAULT NULL,
+  `nom` varchar(255) DEFAULT NULL,
+  `prenom` varchar(255) DEFAULT NULL,
+  `psw` varchar(255) DEFAULT NULL,
+  `telephone` varchar(255) DEFAULT NULL,
+  `ville` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -261,6 +274,14 @@ CREATE TABLE `toit` (
   `id` bigint(20) NOT NULL,
   `libelle` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `toit`
+--
+
+INSERT INTO `toit` (`id`, `libelle`) VALUES
+(1, NULL),
+(2, 'testToit1');
 
 -- --------------------------------------------------------
 
@@ -278,36 +299,19 @@ CREATE TABLE `type_intervention` (
 --
 
 INSERT INTO `type_intervention` (`id`, `libelle`) VALUES
-(1, 'Plomberie Réparation'),
-(2, 'Mise à niveau de l\'électricité'),
-(3, 'Réparations électriques');
+(1, 'Mise aux normes'),
+(2, 'Réparation Plomberie');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `utilisateur`
+-- Structure de la table `type_propriete`
 --
 
-CREATE TABLE `utilisateur` (
-  `id` bigint(20) NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `nom` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `prenom` varchar(255) DEFAULT NULL
+CREATE TABLE `type_propriete` (
+  `id` int(11) NOT NULL,
+  `libelle` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `utilisateur`
---
-
-INSERT INTO `utilisateur` (`id`, `email`, `nom`, `password`, `prenom`) VALUES
-(1, 'anaelle.bargas@sts-sio-caen.info', 'Bargas', 'ilovedev', 'Anaëlle'),
-(2, 'maella.bargas@sts-sio-caen.info', 'Bargas', 'ilovemaella', 'Maella'),
-(3, 'blabla.bargas@sts-sio-caen.info', NULL, NULL, NULL),
-(4, 'test.bargas@sts-sio-caen.info', NULL, NULL, NULL),
-(5, 'test2.bargas@sts-sio-caen.info', 'Bargas', NULL, 'test2'),
-(6, 'test3.bargas@sts-sio-caen.info', 'Bargas', 'ilovedev', 'test3'),
-(7, 'test4.bargas@sts-sio-caen.info', 'Bargas', '$2a$10$xWH2hl0lI50/RE59Lt8yZ.CwRietcql58qYlQ4nfMNa5XIPc1Oa.K', 'test4');
 
 --
 -- Index pour les tables déchargées
@@ -333,20 +337,21 @@ ALTER TABLE `batiment`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `bien`
+--
+ALTER TABLE `bien`
+  ADD PRIMARY KEY (`idb`),
+  ADD KEY `FK5qkq08qhq8vscrmiij69vapfm` (`idp`),
+  ADD KEY `FKmubhl83mtru3dokddc6ovot7d` (`idt`);
+
+--
 -- Index pour la table `contrat`
 --
 ALTER TABLE `contrat`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FK1ahw6ibj07960n52ulfdoc96g` (`appartement_id`),
-  ADD KEY `FKp7hols6tlsatgb3ve32kbn5sv` (`locataire_id`),
   ADD KEY `FKj40p46xa2cw18ynlgohbviwqd` (`associe_id`),
+  ADD KEY `FK1ahw6ibj07960n52ulfdoc96g` (`appartement_id`),
   ADD KEY `FKfiu9667ouphp1yd3nouktd5wu` (`locataire`);
-
---
--- Index pour la table `entreprise`
---
-ALTER TABLE `entreprise`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `garant`
@@ -366,7 +371,6 @@ ALTER TABLE `intervenant`
 ALTER TABLE `intervention`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FKf6nntanyntpovh90a0u2hbj9v` (`appartement_id`),
-  ADD KEY `FKnwedn20385e8gl68s5v9c93ta` (`entreprise_id`),
   ADD KEY `FK1gq45xrtd7j688juiuto7vs3x` (`intervenant_id`),
   ADD KEY `FKg80odl92m1wv1d2hml6t82wo8` (`type_intervention_id`);
 
@@ -377,9 +381,22 @@ ALTER TABLE `locataire`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `louer`
+--
+ALTER TABLE `louer`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKlcyksggnth54sb7n5n9h9roav` (`idb`);
+
+--
 -- Index pour la table `paiement`
 --
 ALTER TABLE `paiement`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `proprietaire`
+--
+ALTER TABLE `proprietaire`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -395,9 +412,9 @@ ALTER TABLE `type_intervention`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `utilisateur`
+-- Index pour la table `type_propriete`
 --
-ALTER TABLE `utilisateur`
+ALTER TABLE `type_propriete`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -408,7 +425,7 @@ ALTER TABLE `utilisateur`
 -- AUTO_INCREMENT pour la table `appartement`
 --
 ALTER TABLE `appartement`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pour la table `associe`
@@ -420,67 +437,79 @@ ALTER TABLE `associe`
 -- AUTO_INCREMENT pour la table `batiment`
 --
 ALTER TABLE `batiment`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT pour la table `bien`
+--
+ALTER TABLE `bien`
+  MODIFY `idb` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `contrat`
 --
 ALTER TABLE `contrat`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
--- AUTO_INCREMENT pour la table `entreprise`
---
-ALTER TABLE `entreprise`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `garant`
 --
 ALTER TABLE `garant`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `intervenant`
 --
 ALTER TABLE `intervenant`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `intervention`
 --
 ALTER TABLE `intervention`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `locataire`
 --
 ALTER TABLE `locataire`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT pour la table `louer`
+--
+ALTER TABLE `louer`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `paiement`
 --
 ALTER TABLE `paiement`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `proprietaire`
+--
+ALTER TABLE `proprietaire`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `toit`
 --
 ALTER TABLE `toit`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `type_intervention`
 --
 ALTER TABLE `type_intervention`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT pour la table `utilisateur`
+-- AUTO_INCREMENT pour la table `type_propriete`
 --
-ALTER TABLE `utilisateur`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+ALTER TABLE `type_propriete`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Contraintes pour les tables déchargées
@@ -493,13 +522,19 @@ ALTER TABLE `appartement`
   ADD CONSTRAINT `FK5kn64l7l2m25kkryy4n50ikyb` FOREIGN KEY (`batiment_id`) REFERENCES `batiment` (`id`);
 
 --
+-- Contraintes pour la table `bien`
+--
+ALTER TABLE `bien`
+  ADD CONSTRAINT `FK5qkq08qhq8vscrmiij69vapfm` FOREIGN KEY (`idp`) REFERENCES `proprietaire` (`id`),
+  ADD CONSTRAINT `FKmubhl83mtru3dokddc6ovot7d` FOREIGN KEY (`idt`) REFERENCES `type_propriete` (`id`);
+
+--
 -- Contraintes pour la table `contrat`
 --
 ALTER TABLE `contrat`
   ADD CONSTRAINT `FK1ahw6ibj07960n52ulfdoc96g` FOREIGN KEY (`appartement_id`) REFERENCES `appartement` (`id`),
   ADD CONSTRAINT `FKfiu9667ouphp1yd3nouktd5wu` FOREIGN KEY (`locataire`) REFERENCES `locataire` (`id`),
-  ADD CONSTRAINT `FKj40p46xa2cw18ynlgohbviwqd` FOREIGN KEY (`associe_id`) REFERENCES `associe` (`id`),
-  ADD CONSTRAINT `FKp7hols6tlsatgb3ve32kbn5sv` FOREIGN KEY (`locataire_id`) REFERENCES `locataire` (`id`);
+  ADD CONSTRAINT `FKj40p46xa2cw18ynlgohbviwqd` FOREIGN KEY (`associe_id`) REFERENCES `associe` (`id`);
 
 --
 -- Contraintes pour la table `intervention`
@@ -507,8 +542,13 @@ ALTER TABLE `contrat`
 ALTER TABLE `intervention`
   ADD CONSTRAINT `FK1gq45xrtd7j688juiuto7vs3x` FOREIGN KEY (`intervenant_id`) REFERENCES `intervenant` (`id`),
   ADD CONSTRAINT `FKf6nntanyntpovh90a0u2hbj9v` FOREIGN KEY (`appartement_id`) REFERENCES `appartement` (`id`),
-  ADD CONSTRAINT `FKg80odl92m1wv1d2hml6t82wo8` FOREIGN KEY (`type_intervention_id`) REFERENCES `type_intervention` (`id`),
-  ADD CONSTRAINT `FKnwedn20385e8gl68s5v9c93ta` FOREIGN KEY (`entreprise_id`) REFERENCES `entreprise` (`id`);
+  ADD CONSTRAINT `FKg80odl92m1wv1d2hml6t82wo8` FOREIGN KEY (`type_intervention_id`) REFERENCES `type_intervention` (`id`);
+
+--
+-- Contraintes pour la table `louer`
+--
+ALTER TABLE `louer`
+  ADD CONSTRAINT `FKlcyksggnth54sb7n5n9h9roav` FOREIGN KEY (`idb`) REFERENCES `bien` (`idb`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
