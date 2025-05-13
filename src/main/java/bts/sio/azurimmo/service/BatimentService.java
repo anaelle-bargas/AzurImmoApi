@@ -76,4 +76,16 @@ public class BatimentService {
             throw new IllegalArgumentException("Erreur lors de la suppression du bâtiment avec l'ID " + id, e);
         }
 	}
+	
+	public Batiment updateBatiment(Batiment batiment) {
+		try {
+            if (!batimentRepository.existsById(batiment.getId())) {
+                throw new IllegalArgumentException("Le bâtiment avec l'ID " + batiment.getId() + " n'existe pas.");
+            }
+            Batiment nvBatiment = batimentRepository.save(batiment);
+            return nvBatiment;
+        } catch (EmptyResultDataAccessException e) {
+            throw new IllegalArgumentException("Erreur lors de la suppression du bâtiment avec l'ID " + batiment.getId(), e);
+        }
+	}
 }

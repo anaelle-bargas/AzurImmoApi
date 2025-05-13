@@ -33,7 +33,7 @@ public class LocataireController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public void deleteBatiment(@PathVariable Long id) {
+	public void deleteLocataire(@PathVariable Long id) {
 		locataireService.deleteLocataire(id);
 	}
 }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import bts.sio.azurimmo.model.Appartement;
+import bts.sio.azurimmo.model.Batiment;
 import bts.sio.azurimmo.repository.AppartementRepository;
 import lombok.Data;
 
@@ -44,6 +45,9 @@ public class AppartementService {
 		return appartementRepository.findAll();
 	}
 	
+	public Optional<Appartement> getAppartementById(Long id) {
+		return appartementRepository.findById(id);
+	}
 	
 	public void deleteAppartement(Long id) {
 		try {
@@ -53,6 +57,18 @@ public class AppartementService {
             appartementRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new IllegalArgumentException("Erreur lors de la suppression du Appartement avec l'ID " + id, e);
+        }
+	}
+	
+	public Appartement updateAppartement(Appartement appartement) {
+		try {
+            if (!appartementRepository.existsById(appartement.getId())) {
+                throw new IllegalArgumentException("Le bâtiment avec l'ID " + appartement.getId() + " n'existe pas.");
+            }
+            Appartement nvAppartement = appartementRepository.save(appartement);
+            return nvAppartement;
+        } catch (EmptyResultDataAccessException e) {
+            throw new IllegalArgumentException("Erreur lors de la suppression de l'appartement avec l'ID " + appartement.getId(), e);
         }
 	}
 }

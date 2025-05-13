@@ -1,6 +1,7 @@
 package bts.sio.azurimmo.controller;
 import bts.sio.azurimmo.model.Appartement;
 import bts.sio.azurimmo.model.Batiment;
+import bts.sio.azurimmo.repository.BatimentRepository;
 import bts.sio.azurimmo.service.AppartementService;
 import bts.sio.azurimmo.service.BatimentService;
 
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -18,6 +20,9 @@ import org.springframework.web.bind.annotation.*;
 public class BatimentController {
 	@Autowired
 	private BatimentService batimentService;
+	
+	@Autowired
+	private BatimentRepository batimentRepository;
 	
 	@PostMapping("/")
 	public Batiment createBatiment(@RequestBody Batiment batiment) {
@@ -39,6 +44,11 @@ public class BatimentController {
 	public void deleteBatiment(@PathVariable Long id) {
 		batimentService.deleteBatiment(id);
 	}
+	
+	@PutMapping("/")
+    public Batiment updateBatiment(@RequestBody Batiment batimentModifie) {
+        return batimentService.updateBatiment(batimentModifie);
+    }
 	
 	//@GetMapping("/surfaceTotale/{idBatiment}")
 	//public double getSurfaceBatiment(@PathVariable long idBatiment){
