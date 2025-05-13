@@ -1,4 +1,5 @@
 package bts.sio.azurimmo.model;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -6,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,10 +32,17 @@ public class Batiment {
 	@Column(name="ville")
 	private String ville;
 	
+	@Column(name="archive")
+	private Boolean archive;
+	
+	
+
+
 	@OneToMany(mappedBy="batiment")
 	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-	@JsonIdentityReference(alwaysAsId = true)
+	//@JsonIdentityReference(alwaysAsId = true)
 	private List<Appartement> appartements;
+	
 
 	public Long getId() {
 		return id;
@@ -58,6 +67,17 @@ public class Batiment {
 	public void setVille(String ville) {
 		this.ville = ville;
 	}
+	
+	
+	public Boolean getArchive() {
+		return archive;
+	}
+
+	public void setArchive(Boolean archive) {
+		this.archive = archive;
+	}
+
+	
 	
 	
 	

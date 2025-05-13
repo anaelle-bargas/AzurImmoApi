@@ -19,6 +19,9 @@ public class Intervention {
 	@Column(name="date")
 	private Date date;
 	
+	@Column(name="archive")
+	private Boolean archive;
+	
 	@ManyToOne
 	@JoinColumn(name = "appartement_id")
 	private Appartement appartement;
@@ -90,6 +93,16 @@ public class Intervention {
 
 	public void setTypeIntervention(TypeIntervention typeIntervention) {
 		this.typeIntervention = typeIntervention;
+	}
+
+
+	public Boolean getArchive() {
+		return archive;
+	}
+
+
+	public void setArchive(Boolean archive) {
+		this.archive = archive;
 	}
 	
 	

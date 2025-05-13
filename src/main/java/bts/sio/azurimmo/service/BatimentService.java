@@ -43,13 +43,28 @@ public class BatimentService {
 		//:///return appartementRepository.findBySurfaceGreaterThan(surface);
 	//}
 	
-	public List<Batiment> getBatiments() {
+	public List<Batiment> getBatimentsAvecArchives() {
 		return batimentRepository.findAll();
+	}
+	
+	public List<Batiment> getBatiments() {
+		return batimentRepository.findByArchiveFalse();
 	}
 	
 	//public List<Batiment> findByVille(long idVille){
 		//return batimentRepository.findByVille(idVille);
 	//}
+	
+	public void archiverBatiment(Long id) {
+	    Batiment batiment = batimentRepository.findById(id)
+	        .orElseThrow(() -> new RuntimeException("Bâtiment non trouvé"));
+	    batiment.setArchive(true);
+	    batimentRepository.save(batiment);
+	    List<Appartement> appartements = appartementService.getAppartementsParBatiment(id);
+	    for (Appartement appartement : appartements) {
+	        appartementService.archiverAppartement(appartement.getId());
+	    }
+	}
 	
 	
 	public double getSurfaceBatiment(long id) {

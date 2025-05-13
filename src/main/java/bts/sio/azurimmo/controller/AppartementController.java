@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,6 +30,11 @@ public class AppartementController {
 	@GetMapping("/")
 	public List<Appartement> getAppartements() {
 		return appartementService.getAppartements();
+	}
+	
+	@GetMapping("/avec_archives/")
+	public List<Appartement> getBatimentsAvecArchives() {
+		return appartementService.getAppartementsAvecArchives();
 	}
 	
 	@GetMapping("/ville/{ville}")
@@ -60,4 +66,10 @@ public class AppartementController {
     public Appartement updateBatiment(@RequestBody Appartement appartementModifie) {
         return appartementService.updateAppartement(appartementModifie);
     }
+	
+	@PutMapping("/archiver/{id}")
+	public ResponseEntity<Void> archiverAppartement(@PathVariable Long id) {
+		appartementService.archiverAppartement(id);
+	    return ResponseEntity.noContent().build();
+	}
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import bts.sio.azurimmo.model.Contrat;
 import bts.sio.azurimmo.model.Locataire;
 import bts.sio.azurimmo.repository.LocataireRepository;
 import bts.sio.azurimmo.service.LocataireService;
@@ -25,6 +26,11 @@ public class LocataireController {
 	@GetMapping("/")
 	public List<Locataire> findAll(){
 		return locataireService.findAll();
+	}
+	
+	@GetMapping("/avec_archives/")
+	public List<Locataire> getLesLocatairesAvecArchives(){
+		return locataireService.getLesLocatairesAvecArchives();
 	}
 	
 	@PostMapping("/")

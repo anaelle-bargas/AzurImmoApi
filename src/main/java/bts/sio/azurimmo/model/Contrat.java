@@ -26,13 +26,13 @@ public class Contrat {
 	@Column
 	private float montant_charges;
 	
-	@ManyToOne
-	@JoinColumn(name = "appartement_id")
-	private Appartement appartement;
+	@Column
+	private Boolean archive;
 	
 	@ManyToOne
-	@JoinColumn(name = "associe_id")
-	private Associe associe;
+	@JoinColumn(name = "appartement")
+	private Appartement appartement;
+	
 	
 	@ManyToOne
 	@JoinColumn(name="locataire")
@@ -78,13 +78,6 @@ public class Contrat {
 		this.montant_charges = montant_charges;
 	}
 
-	public Associe getAssocie() {
-		return associe;
-	}
-
-	public void setAssocie(Associe associe) {
-		this.associe = associe;
-	}
 
 	public Appartement getAppartement() {
 		return appartement;
@@ -101,6 +94,15 @@ public class Contrat {
 	public void setLocataire(Locataire locataire) {
 		this.locataire = locataire;
 	}
+
+	public Boolean getArchive() {
+		return archive;
+	}
+
+	public void setArchive(Boolean archive) {
+		this.archive = archive;
+	}
+	
 	
 	
 	

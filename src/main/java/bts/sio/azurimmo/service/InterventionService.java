@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import bts.sio.azurimmo.model.Appartement;
+import bts.sio.azurimmo.model.Contrat;
 import bts.sio.azurimmo.model.Intervention;
 import bts.sio.azurimmo.model.Locataire;
 import bts.sio.azurimmo.repository.InterventionRepository;
@@ -19,7 +20,7 @@ public class InterventionService {
 	private InterventionRepository interventionRepository;
 	
 	public List<Intervention> getLesInterventions(){
-		return interventionRepository.findAll();
+		return interventionRepository.findByArchiveFalse();
 	}
 	
 	
@@ -31,7 +32,7 @@ public class InterventionService {
 	}
 	
 	public List<Intervention> getInterventionsParAppartement(long id) {
-		return interventionRepository.findByAppartement_Id(id);
+		return interventionRepository.findByAppartement_IdAndArchiveFalse(id);
 	}
 	
 	public void deleteIntervention(Long id) {
@@ -45,4 +46,27 @@ public class InterventionService {
         }
 	}
 	
+	public void archiverIntervention(Long id) {
+		Intervention intervention = interventionRepository.findById(id)
+	        .orElseThrow(() -> new RuntimeException("Appartement non trouvé"));
+		intervention.setArchive(true);
+	    interventionRepository.save(intervention);
+	    
+	}
+	
+	public List<Intervention> getLesInterventionsAvecArchives() {
+		return interventionRepository.findAll();
+	}
+	
+	public Intervention updateIntervention(Intervention intervention) {
+		try {
+            if (!interventionRepository.existsById(intervention.getId())) {
+                throw new IllegalArgumentException("Le intervention avec l'ID " + intervention.getId() + " n'existe pas.");
+            }
+            Intervention nvIntervention = interventionRepository.save(intervention);
+            return nvIntervention;
+        } catch (EmptyResultDataAccessException e) {
+            throw new IllegalArgumentException("Erreur lors de la suppression de intervention avec l'ID " + intervention.getId(), e);
+        }
+	}
 }

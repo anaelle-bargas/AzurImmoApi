@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import bts.sio.azurimmo.model.Contrat;
 import bts.sio.azurimmo.model.Locataire;
 import bts.sio.azurimmo.repository.LocataireRepository;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class LocataireService {
 	private LocataireRepository locataireRepository;
 	
 	public List<Locataire> findAll(){
-		return locataireRepository.findAll();
+		return locataireRepository.findByArchiveFalse();
 	}
 	
 	
@@ -37,5 +38,9 @@ public class LocataireService {
         } catch (EmptyResultDataAccessException e) {
             throw new IllegalArgumentException("Erreur lors de la suppression du locataire avec l'ID " + id, e);
         }
+	}
+	
+	public List<Locataire> getLesLocatairesAvecArchives() {
+		return locataireRepository.findAll();
 	}
 }

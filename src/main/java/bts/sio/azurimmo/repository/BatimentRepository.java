@@ -8,6 +8,8 @@ import java.util.List;
 public interface BatimentRepository extends JpaRepository<Batiment, Long>{
 	
 	//List<Batiment> findByVille(long id);
+	List<Batiment> findByArchiveFalse();
+
 }
 
 

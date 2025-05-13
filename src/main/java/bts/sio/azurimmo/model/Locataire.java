@@ -33,6 +33,9 @@ public class Locataire {
 	@Column
 	private String telephone;
 	
+	@Column
+	private Boolean archive;
+	
 	
 	
 

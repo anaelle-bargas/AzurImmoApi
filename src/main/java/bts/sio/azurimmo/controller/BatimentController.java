@@ -34,6 +34,11 @@ public class BatimentController {
 		return batimentService.getBatiments();
 	}
 	
+	@GetMapping("/avec_archives/")
+	public List<Batiment> getBatimentsAvecArchives() {
+		return batimentService.getBatimentsAvecArchives();
+	}
+	
 	@GetMapping("/id/{id}")
 	public Optional<Batiment> getBatimentById(@PathVariable Long id) {
 		return batimentService.getBatimentById(id);
@@ -49,6 +54,14 @@ public class BatimentController {
     public Batiment updateBatiment(@RequestBody Batiment batimentModifie) {
         return batimentService.updateBatiment(batimentModifie);
     }
+	
+	@PutMapping("/archiver/{id}")
+	public ResponseEntity<Void> archiverBatiment(@PathVariable Long id) {
+	    batimentService.archiverBatiment(id);
+	    return ResponseEntity.noContent().build();
+	}
+
+	
 	
 	//@GetMapping("/surfaceTotale/{idBatiment}")
 	//public double getSurfaceBatiment(@PathVariable long idBatiment){
