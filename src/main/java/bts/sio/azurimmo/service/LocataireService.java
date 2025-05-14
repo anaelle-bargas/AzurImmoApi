@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import bts.sio.azurimmo.model.Contrat;
+import bts.sio.azurimmo.model.Intervention;
 import bts.sio.azurimmo.model.Locataire;
 import bts.sio.azurimmo.repository.LocataireRepository;
 import lombok.Data;
@@ -42,5 +43,13 @@ public class LocataireService {
 	
 	public List<Locataire> getLesLocatairesAvecArchives() {
 		return locataireRepository.findAll();
+	}
+	
+	public void archiverLocataire(Long id) {
+		Locataire locataire = locataireRepository.findById(id)
+	        .orElseThrow(() -> new RuntimeException("Locataire non trouvé"));
+		locataire.setArchive(true);
+		locataireRepository.save(locataire);
+	    
 	}
 }

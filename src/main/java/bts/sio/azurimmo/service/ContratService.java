@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import bts.sio.azurimmo.model.Appartement;
 import bts.sio.azurimmo.model.Batiment;
 import bts.sio.azurimmo.model.Contrat;
 import bts.sio.azurimmo.model.Intervention;
@@ -66,5 +67,12 @@ public class ContratService {
 	
 	public List<Contrat> getLesContratsAvecArchives() {
 		return contratRepository.findAll();
+	}
+	
+	public void archiverContrat(Long id) {
+		Contrat contrat = contratRepository.findById(id)
+	        .orElseThrow(() -> new RuntimeException("Contrat non trouvé"));
+		contrat.setArchive(true);
+		contratRepository.save(contrat);
 	}
 }

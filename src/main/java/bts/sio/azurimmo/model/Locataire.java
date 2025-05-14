@@ -94,6 +94,15 @@ public class Locataire {
 	public void setLieu_naissance(String lieu_naissance) {
 		this.lieu_naissance = lieu_naissance;
 	}
+
+	public Boolean getArchive() {
+		return archive;
+	}
+
+	public void setArchive(Boolean archive) {
+		this.archive = archive;
+	}
+	
 	
 	
 }

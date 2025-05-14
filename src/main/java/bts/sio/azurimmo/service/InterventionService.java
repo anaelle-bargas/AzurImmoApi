@@ -48,7 +48,7 @@ public class InterventionService {
 	
 	public void archiverIntervention(Long id) {
 		Intervention intervention = interventionRepository.findById(id)
-	        .orElseThrow(() -> new RuntimeException("Appartement non trouvé"));
+	        .orElseThrow(() -> new RuntimeException("Intervention non trouvé"));
 		intervention.setArchive(true);
 	    interventionRepository.save(intervention);
 	    
